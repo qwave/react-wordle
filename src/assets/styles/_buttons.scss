@@ -1,0 +1,21 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  padding: 0 1.5em;
+  text-transform: uppercase;
+  box-shadow: $btn-box-shadow;
+}
+
+.btn-block {
+  display: flex;
+  width: 100%;
+}
+
+.btn-lg {
+  height: 140px;
+  padding: 0 0.75em;
+  border-radius: 25px;
+  font-size: 2.5rem;
+}

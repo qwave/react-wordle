@@ -10,7 +10,7 @@ export const CompletedRow = ({ guess, isRevealing }: Props) => {
   const statuses = getGuessStatuses(guess)
 
   return (
-    <div className="flex justify-center mb-1">
+    <div className="grid__row">
       {guess.split('').map((letter, i) => (
         <Cell
           key={i}

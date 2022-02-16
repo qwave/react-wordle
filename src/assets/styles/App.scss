@@ -1,0 +1,267 @@
+@import './variables';
+@import './fonts';
+@import './bootstrap';
+
+@import './animation';
+@import './base';
+@import './type';
+@import './container';
+@import './forms';
+@import './buttons';
+
+
+html.dark {
+  background-color: rgb(15, 23, 42);
+}
+
+.main--login {
+  .main__title {
+    margin-bottom: 80px;
+  }
+}
+
+.main--welcome {
+  .main__text {
+    text-align: center;
+  }
+
+  .main__actions {
+    margin-top: 80px;
+    text-align: center;
+  }
+}
+
+.main--game {
+  .main__header {
+    margin-bottom: 30px;
+  }
+}
+
+.main--rules {
+  .main__title {
+    margin-bottom: 0;
+  }
+}
+
+
+.login {
+  max-width: 660px;
+  margin: 0 auto;
+}
+
+.welcome {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+// Grid
+.grid {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  grid-gap: 5px;
+  padding: 10px;
+}
+
+.grid__row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 5px;
+}
+
+.grid__cell {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  //width: 100px;
+  //height: 100px;
+  background-color: $white;
+  border: 1px solid #808080;
+  color: #808080;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+  user-select: none;
+
+  &[data-status="absent"] {
+    background-color: #808080;
+    color: $white;
+
+    &.cell-reveal {
+      animation-name: revealAbsentCharCell;
+    }
+  }
+
+  &[data-status="present"] {
+    background-color: #f9d023;
+    border-color: $white;
+    color: #808080;
+
+    &.cell-reveal {
+      animation-name: revealPresentCharCell;
+    }
+  }
+
+  &[data-status="correct"] {
+    background-color: $primary;
+    border-color: $primary;
+    color: $white;
+
+    &.cell-reveal {
+      animation-name: revealCorrectCharCell;
+    }
+  }
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  #board-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+  }
+
+  #board {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  // Keybaord
+  .keyboard {
+    margin-top: 0.5rem;
+
+    .row {
+      --bs-gutter-x: 10px;
+
+      &:not(:last-child) {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .keyboard__item {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 84px;
+    width: 100vw;
+    height: 100px;
+    background: $white;
+    border-radius: 24px;
+    border: 1px solid #808080;
+    color: #808080;
+    font-weight: 700;
+    user-select: none;
+    text-transform: uppercase;
+    transition: background-color 0.1s ease, color 0.1s ease;
+
+    &[data-status="absent"] {
+      background: #808080;
+      color: $white;
+    }
+
+    &[data-status="present"] {
+      background: #f9d023;
+      border-color: $white;
+      color: #808080;
+    }
+
+    &[data-status="correct"] {
+      background: $primary;
+      border-color: $primary;
+      color: $white;
+    }
+
+    svg {
+      width: 2em;
+      height: 2em;
+    }
+
+    &[data-size="large"] {
+      max-width: 180px;
+    }
+  }
+}
+
+.rules {
+  .rules__section {
+    position: relative;
+    padding: 60px 0;
+    text-align: center;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 90%;
+      height: 1px;
+      background-color: #808080;
+      transform: translateX(-50%);
+    }
+
+    &:last-child {
+      &:after {
+        display: none;
+      }
+    }
+
+    & > *:not(:last-child) {
+      margin-bottom: 50px;
+    }
+  }
+
+  .rules__sample {
+    .grid__row {
+      display: inline-grid;
+    }
+
+    .grid__cell {
+      width: 90px;
+      height: 90px;
+      font-size: 1.75rem;
+    }
+  }
+
+  .rules__finish {
+    margin: 3.4rem 0;
+    color: $primary;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .rules__steps {
+    .row {
+      --bs-gutter-y: 1rem;
+    }
+  }
+
+  .rules__steps-item {
+    display: flex;
+  }
+
+  .rules__steps-number {
+    flex: 0 0 auto;
+    width: 30%;
+  }
+
+  .rules__steps-text {
+    margin-left: 1rem;
+    color: $primary;
+    font-weight: 700;
+  }
+
+  .rules__actions {
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
