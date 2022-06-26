@@ -213,7 +213,7 @@ function App() {
       <div className='main__header'>
         <Container fluid>
           <Col>
-            <Image src={siteLogo} fluid className='mx-auto' />
+            <Image src={siteLogo} fluid className='mx-auto main__logo' />
           </Col>
         </Container>
       </div>

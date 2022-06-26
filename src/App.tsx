@@ -8,6 +8,7 @@ import Game from './views/Game'
 import Login from './views/Login'
 import Rules from './views/Rules'
 import Welcome from './views/Welcome'
+import Rating from './views/Rating'
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
       <Route path="/login" component={Login} />
       <Route path="/rules" component={Rules} />
       <Route path="/welcome" component={Welcome} />
+      <Route path="/rating" component={Rating} />
     </Switch>
   )
 }

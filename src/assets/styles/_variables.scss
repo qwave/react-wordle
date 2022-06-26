@@ -3,7 +3,16 @@ $primary: #e42629;
 $body-bg: #e2e2e2;
 $body-color: #808080;
 
-$font-size-root: 40px;
+$grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 768px,
+        lg: 992px,
+        xl: 1200px,
+        xxl: 1930px
+);
+
+//$font-size-root: 40px;
 $fonts-path: '../fonts/';
 $font-family-sans-serif: 'DIN Pro';
 
@@ -25,6 +34,6 @@ $input-font-size: 0.9rem;
 
 $btn-box-shadow: $input-box-shadow;
 $btn-font-weight: 700;
-$btn-border-radius: 24px;
+$btn-border-radius: 0.55em;
 
 

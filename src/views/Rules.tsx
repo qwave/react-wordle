@@ -12,7 +12,7 @@ export default function Rules() {
       <div className='main__header'>
         <Container fluid>
           <Col>
-            <Image src={siteLogo} fluid className='mx-auto' />
+            <Image src={siteLogo} fluid className='mx-auto main__logo' />
           </Col>
         </Container>
       </div>
@@ -92,7 +92,7 @@ export default function Rules() {
                     <div className='rules__steps-number'>
                       <Image src={numberOne} />
                     </div>
-                    <div className='rules__steps-text'>Среди всех сотрудников мы формируем рейтинг. На рейтинг влияют скорость ответа, количество попыток и количество слов, которые ты угадал за всю неделю.</div>
+                    <div className='rules__steps-text'>Среди всех сотрудников мы формируем рейтинг. На&nbsp;рейтинг влияют скорость ответа, количество попыток и количество слов, которые ты угадал за всю неделю.</div>
                   </div>
                 </Col>
                 <Col md={6}>

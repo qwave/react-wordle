@@ -1,8 +1,9 @@
 .form-group {
-  margin-bottom: 24px;
+  margin-bottom: 0.6rem;
 }
 
 .form-control {
-  height: 100px;
+  height: 2.75em;
+  min-height: 40px;
   box-shadow: $input-box-shadow;
 }

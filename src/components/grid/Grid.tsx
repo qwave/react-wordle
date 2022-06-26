@@ -22,7 +22,7 @@ export const Grid = ({ guesses, currentGuess, isRevealing }: Props) => {
   const [height, setHeight] = useState();
 
   const getBoardSize = () => {
-    const newWidth = Math.min(Math.floor(boardContainer.current.clientHeight * (5 / 6)), 900);
+    const newWidth = Math.min(Math.floor(boardContainer.current.clientHeight * (5 / 6)), 500, boardContainer.current.clientWidth);
     // @ts-ignore
     setWidth(newWidth);
 
@@ -32,12 +32,9 @@ export const Grid = ({ guesses, currentGuess, isRevealing }: Props) => {
   };
 
   useEffect(() => {
+    window.addEventListener("resize", getBoardSize);
     getBoardSize();
   });
-
-  useEffect(() => {
-    window.addEventListener("resize", getBoardSize);
-  }, []);
 
   return (
     <div id='board-container' ref={boardContainer}>

@@ -1,3 +1,18 @@
+:root {
+  @include media-breakpoint-up(md) {
+    font-size: 26px; // 24px mb?
+  }
+  @media (min-width: #{breakpoint-min(xxl)}) and (min-height: 1200px) {
+    font-size: 40px;
+  }
+  @media (max-height: 800px) {
+    font-size: 16px;
+  }
+  @media (max-height: 600px) {
+    font-size: 12px;
+  }
+}
+
 html,
 body,
 #root,
@@ -16,11 +31,11 @@ body {
 
 .main {
   overflow-x: hidden;
-  padding: 100px 0;
+  padding: 2.5rem 0;
 }
 
 .main__header {
-  margin-bottom: 80px;
+  margin-bottom: 2rem;
 }
 
 .main__content {
@@ -31,4 +46,8 @@ body {
 
 .main__title {
   text-align: center;
+}
+
+.main__logo {
+  width: 12.375rem;
 }

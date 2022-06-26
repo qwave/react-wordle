@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 100px;
+  height: 2.5em;
   padding: 0 1.5em;
   text-transform: uppercase;
   box-shadow: $btn-box-shadow;
@@ -14,8 +14,12 @@
 }
 
 .btn-lg {
-  height: 140px;
+  height: 1.4em;
   padding: 0 0.75em;
-  border-radius: 25px;
-  font-size: 2.5rem;
+  border-radius: 0.35em;
+  font-size: 2rem;
+
+  @include media-breakpoint-up(xl) {
+    font-size: 2.5rem;
+  }
 }
