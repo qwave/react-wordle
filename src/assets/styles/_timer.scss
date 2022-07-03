@@ -1,0 +1,15 @@
+.timer {
+  display: inline-flex;
+  align-items: center;
+  color: $primary;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.timer__icon {
+  margin-right: 0.25em;
+
+  img {
+    width: 1.6em;
+  }
+}

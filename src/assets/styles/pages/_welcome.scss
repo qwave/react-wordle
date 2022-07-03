@@ -1,0 +1,76 @@
+.main--welcome {
+  .main__text {
+    text-align: center;
+  }
+
+  .main__actions {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .main__background-spacer {
+    width: 22rem;
+
+    @include media-breakpoint-down(lg) {
+      display: none;
+    }
+  }
+
+  .main__background-image--dog {
+    top: 25rem;
+    width: 24rem;
+    transform: translateX(-30%);
+
+    @include media-breakpoint-down(lg) {
+      max-width: 140%;
+    }
+
+    @include media-breakpoint-up(lg) {
+      top: 35%;
+      right: 0;
+      margin-right: -3rem;
+      transform: none;
+    }
+
+    @media (max-height: 600px) {
+      top: auto;
+      bottom: 0;
+    }
+  }
+
+  .main__background-image--cat-small {
+    top: 23rem;
+    width: 24rem;
+    right: 0;
+    transform: translateX(30%);
+
+    @include media-breakpoint-down(lg) {
+      max-width: 140%;
+    }
+
+    @include media-breakpoint-up(lg) {
+      top: 15%;
+      right: auto;
+      transform: none;
+    }
+
+    @media (max-height: 600px) {
+      top: auto;
+      bottom: 0;
+    }
+  }
+
+  background-image: url("../../images/background/rope.png");
+  background-size: 100% auto;
+  background-position: center top 37rem;
+  background-repeat: no-repeat;
+
+  @include media-breakpoint-up(lg) {
+    background-position: center top 24rem;
+  }
+}
+
+.welcome {
+  max-width: 22rem;
+  margin: 0 auto;
+}

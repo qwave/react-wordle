@@ -7,7 +7,7 @@ import {
 } from 'react'
 import { ALERT_TIME_MS } from '../constants/settings'
 
-type AlertStatus = 'success' | 'error' | undefined
+type AlertStatus = 'success' | 'danger' | undefined
 
 type ShowOptions = {
   persist?: boolean
@@ -73,7 +73,7 @@ export const AlertProvider = ({ children }: Props) => {
 
   const showError = useCallback(
     (newMessage: string, options?: ShowOptions) => {
-      show('error', newMessage, options)
+      show('danger', newMessage, options)
     },
     [show]
   )

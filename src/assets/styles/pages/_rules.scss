@@ -1,0 +1,139 @@
+.main--rules {
+  .main__title {
+    margin-bottom: 0;
+  }
+}
+
+.rules {
+  .rules__section {
+    position: relative;
+    padding: 1.5rem 0;
+    text-align: center;
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 90%;
+      height: 1px;
+      background-color: #808080;
+      transform: translateX(-50%);
+    }
+
+    &:last-child {
+      &:after {
+        display: none;
+      }
+    }
+
+    & > *:not(:last-child) {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .rules__sample {
+    .grid__row {
+      display: inline-grid;
+    }
+
+    .grid__cell {
+      width: 1.2em;
+      height: 1.2em;
+      font-size: 1.75rem;
+    }
+  }
+
+  .rules__finish {
+    margin: 3.4rem 0;
+    color: $primary;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .rules__steps {
+    margin-top: 10.5rem;
+
+    .row {
+      --bs-gutter-y: 1rem;
+      --bs-gutter-x: 0.5rem;
+    }
+  }
+
+  .rules__steps-item {
+    display: flex;
+  }
+
+  .rules__steps-number {
+    flex: 0 0 auto;
+    width: 70px;
+
+    @include media-breakpoint-up(md) {
+      width: 30%;
+      max-width: 200px;
+    }
+  }
+
+  .rules__steps-text {
+    margin-left: 0.75rem;
+    padding-top: 0.5em;
+    color: $primary;
+    font-weight: 700;
+  }
+
+  .rules__actions {
+    max-width: 60%;
+    margin: 0 auto;
+  }
+}
+
+.rules__background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.rules__background-image {
+  position: absolute;
+
+  &--i {
+    right: 0;
+    bottom: 100%;
+    max-width: 155px;
+    width: 4rem;
+  }
+
+  &--e {
+    left: 0;
+    top: 50%;
+    max-width: 116px;
+    width: 3rem;
+    transform: translate(-110%, -50%);
+  }
+
+  &--c {
+    top: 0;
+    left: 100%;
+    max-width: 116px;
+    width: 3rem;
+  }
+
+  &--x {
+    bottom: 0;
+    right: 100%;
+    max-width: 170px;
+    width: 5rem;
+    transform: translateY(60%);
+  }
+
+  &--pya {
+    top: 0;
+    right: 0;
+    max-width: 614px;
+    width: 16rem;
+    transform: translate(30%, -15%);
+  }
+}

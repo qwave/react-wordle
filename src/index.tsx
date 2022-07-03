@@ -1,14 +1,69 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
+import './assets/styles/App.scss'
 import App from './App'
+import Auth from './views/Auth'
+import Home from './views/Home'
+import Rating from './views/Rating'
+import Rules from './views/Rules'
+import Result from './views/Result'
 import reportWebVitals from './reportWebVitals'
 import { AlertProvider } from './context/AlertContext'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
+import { AuthProvider, RequireAuth } from 'react-auth-kit'
 
 ReactDOM.render(
   <React.StrictMode>
     <AlertProvider>
-      <App />
+      <AuthProvider authType={'localstorage'} authName={'_auth'}>
+        <BrowserRouter>
+          <Routes>
+            <Route path={'*'} element={<Navigate replace to="/" />} />
+            <Route path={'/auth'} element={<Auth />} />
+            <Route
+              path={'/'}
+              element={
+                <RequireAuth loginPath={'/auth'}>
+                  <Home />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={'/rating'}
+              element={
+                <RequireAuth loginPath={'/auth'}>
+                  <Rating />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={'/result'}
+              element={
+                <RequireAuth loginPath={'/auth'}>
+                  <Result />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={'/rules'}
+              element={
+                <RequireAuth loginPath={'/auth'}>
+                  <Rules />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={'/game'}
+              element={
+                <RequireAuth loginPath={'/auth'}>
+                  <App />
+                </RequireAuth>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </AlertProvider>
   </React.StrictMode>,
   document.getElementById('root')

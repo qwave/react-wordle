@@ -1,0 +1,38 @@
+.main--playday {
+  height: auto;
+  overflow: visible;
+
+  .main__background-image--cat-small {
+    bottom: 0;
+    left: 50%;
+    width: 18rem;
+    transform: translateY(25%);
+
+    @include media-breakpoint-up(lg) {
+      width: 24rem;
+    }
+  }
+}
+
+.playday__images {
+  &-day {
+    width: 100%;
+    max-width: 880px;
+  }
+
+  &-words {
+    width: 50%;
+    max-width: 265px;
+    margin: 1.25rem auto 0;
+
+    @include media-breakpoint-up(md) {
+      width: 44%;
+    }
+  }
+}
+
+.playday__actions {
+  max-width: 60%;
+  margin: 7rem auto 0;
+}
+

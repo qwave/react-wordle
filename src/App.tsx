@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { Col, Container, Image, Row } from 'react-bootstrap'
+import siteLogo from './assets/images/site-logo.png'
 import { Grid } from './components/grid/Grid'
 import { Keyboard } from './components/keyboard/Keyboard'
 import { InfoModal } from './components/modals/InfoModal'
@@ -41,12 +43,11 @@ import { useAlert } from './context/AlertContext'
 import { Navbar } from './components/navbar/Navbar'
 import { isInAppBrowser } from './lib/browser'
 import { MigrateStatsModal } from './components/modals/MigrateStatsModal'
+import dogImage from './assets/images/background/dog.png'
+import catSmallImage from './assets/images/background/cat-small.png'
+import IconTimer from './assets/icons/timer.svg'
 
 function App() {
-  const prefersDarkMode = window.matchMedia(
-    '(prefers-color-scheme: dark)'
-  ).matches
-
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
     useAlert()
   const [currentGuess, setCurrentGuess] = useState('')
@@ -57,16 +58,6 @@ function App() {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
   const [currentRowClass, setCurrentRowClass] = useState('')
   const [isGameLost, setIsGameLost] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(
-    localStorage.getItem('theme')
-      ? localStorage.getItem('theme') === 'dark'
-      : prefersDarkMode
-      ? true
-      : false
-  )
-  const [isHighContrastMode, setIsHighContrastMode] = useState(
-    getStoredIsHighContrastMode()
-  )
   const [isRevealing, setIsRevealing] = useState(false)
   const [guesses, setGuesses] = useState<string[]>(() => {
     const loaded = loadGameStateFromLocalStorage()
@@ -112,39 +103,6 @@ function App() {
         durationMs: 7000,
       })
   }, [showErrorAlert])
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-
-    if (isHighContrastMode) {
-      document.documentElement.classList.add('high-contrast')
-    } else {
-      document.documentElement.classList.remove('high-contrast')
-    }
-  }, [isDarkMode, isHighContrastMode])
-
-  const handleDarkMode = (isDark: boolean) => {
-    setIsDarkMode(isDark)
-    localStorage.setItem('theme', isDark ? 'dark' : 'light')
-  }
-
-  const handleHardMode = (isHard: boolean) => {
-    if (guesses.length === 0 || localStorage.getItem('gameMode') === 'hard') {
-      setIsHardMode(isHard)
-      localStorage.setItem('gameMode', isHard ? 'hard' : 'normal')
-    } else {
-      showErrorAlert(HARD_MODE_ALERT_MESSAGE)
-    }
-  }
-
-  const handleHighContrastMode = (isHighContrast: boolean) => {
-    setIsHighContrastMode(isHighContrast)
-    setStoredIsHighContrastMode(isHighContrast)
-  }
 
   const clearCurrentRowClass = () => {
     setCurrentRowClass('')
@@ -252,8 +210,106 @@ function App() {
     }
   }
 
+  const boardContainer = useRef<any>()
+  const [width, setWidth] = useState()
+  const [height, setHeight] = useState()
+
+  const getBoardSize = () => {
+    const newWidth = Math.min(
+      Math.floor(boardContainer.current.clientHeight * (5 / 6)),
+      500,
+      boardContainer.current.clientWidth
+    )
+    // @ts-ignore
+    setWidth(newWidth)
+
+    const newHeight = 6 * Math.floor(newWidth / 5)
+    // @ts-ignore
+    setHeight(newHeight)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', getBoardSize)
+    getBoardSize()
+  })
+
   return (
-    <div className="h-screen flex flex-col">
+    <main className={'main main--game'}>
+      <div className="main__background">
+        <Row className={'g-0 flex-nowrap'}>
+          <Col>
+            <Image
+              src={dogImage}
+              className={'main__background-image main__background-image--dog'}
+            />
+          </Col>
+          <Col xs="auto">
+            <div className="main__background-spacer"></div>
+          </Col>
+          <Col>
+            <Image
+              src={catSmallImage}
+              className={
+                'main__background-image main__background-image--cat-small'
+              }
+            />
+          </Col>
+        </Row>
+      </div>
+      <div className="main__header">
+        <Container fluid>
+          <Row className={'align-items-end'}>
+            <Col className={'d-flex flex-right pb-1'}>
+              <div className="timer">
+                <div className="timer__icon">
+                  <Image src={IconTimer} />
+                </div>
+                <div className="timer__value">01:33</div>
+              </div>
+            </Col>
+            <Col xs={'auto'}>
+              <Image src={siteLogo} fluid className="mx-auto main__logo" />
+            </Col>
+            <Col className="pb-1">
+              <div className="rank">
+                54 <span className="rank__delimiter"></span> 420
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+      <div className="main__content">
+        <div className="game">
+          <div id="board-container" ref={boardContainer}>
+            <div
+              id="board"
+              className="grid"
+              style={{ width: width, height: height }}
+            >
+              <Grid
+                solution={solution}
+                guesses={guesses}
+                currentGuess={currentGuess}
+                isRevealing={isRevealing}
+                currentRowClassName={currentRowClass}
+              />
+            </div>
+          </div>
+          <Keyboard
+            onChar={onChar}
+            onDelete={onDelete}
+            onEnter={onEnter}
+            solution={solution}
+            guesses={guesses}
+            isRevealing={isRevealing}
+          />
+        </div>
+        <div className="game__alert">
+          <AlertContainer />
+        </div>
+      </div>
+    </main>
+    /*<div className="h-screen flex flex-col">
       <Navbar
         setIsInfoModalOpen={setIsInfoModalOpen}
         setIsStatsModalOpen={setIsStatsModalOpen}
@@ -315,7 +371,7 @@ function App() {
         />
         <AlertContainer />
       </div>
-    </div>
+    </div>*/
   )
 }
 
