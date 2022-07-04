@@ -1,8 +1,8 @@
-import { solution } from '../../lib/words'
+import { solutionLength } from '../../lib/words'
 import { Cell } from './Cell'
 
 export const EmptyRow = () => {
-  const emptyCells = Array.from(Array(solution.length))
+  const emptyCells = Array.from(Array(solutionLength))
 
   return (
     <div className="grid__row">

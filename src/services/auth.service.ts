@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://5.58.204.33:3300/api/'
+const API_URL = 'http://localhost:3300/api/'
 
 const login = (username: string, email: string) => {
   return axios

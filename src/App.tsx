@@ -24,17 +24,10 @@ import {
 import {
   isWordInWordList,
   isWinningWord,
-  solution,
   findFirstUnusedReveal,
   unicodeLength,
 } from './lib/words'
 import { addStatsForCompletedGame, loadStats } from './lib/stats'
-import {
-  loadGameStateFromLocalStorage,
-  saveGameStateToLocalStorage,
-  setStoredIsHighContrastMode,
-  getStoredIsHighContrastMode,
-} from './lib/localStorage'
 import { default as GraphemeSplitter } from 'grapheme-splitter'
 
 import './App.css'
@@ -46,8 +39,24 @@ import { MigrateStatsModal } from './components/modals/MigrateStatsModal'
 import dogImage from './assets/images/background/dog.png'
 import catSmallImage from './assets/images/background/cat-small.png'
 import IconTimer from './assets/icons/timer.svg'
+import GameService from './services/game.service'
+import {useAuthHeader} from 'react-auth-kit'
+import { useStopwatch } from 'react-timer-hook';
 
 function App() {
+  const authHeader = useAuthHeader()
+  
+  const {
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    reset,
+  } = useStopwatch({ autoStart: false });
+
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
     useAlert()
   const [currentGuess, setCurrentGuess] = useState('')
@@ -59,23 +68,33 @@ function App() {
   const [currentRowClass, setCurrentRowClass] = useState('')
   const [isGameLost, setIsGameLost] = useState(false)
   const [isRevealing, setIsRevealing] = useState(false)
+  const [solution, setSolution] = useState('')
   const [guesses, setGuesses] = useState<string[]>(() => {
-    const loaded = loadGameStateFromLocalStorage()
-    if (loaded?.solution !== solution) {
-      return []
-    }
-    const gameWasWon = loaded.guesses.includes(solution)
-    if (gameWasWon) {
-      setIsGameWon(true)
-    }
-    if (loaded.guesses.length === MAX_CHALLENGES && !gameWasWon) {
-      setIsGameLost(true)
-      showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
-        persist: true,
-      })
-    }
-    return loaded.guesses
+    GameService.start(authHeader()).then((res) => {
+      console.log(res);
+      
+      if (!res.solution)
+        return; 
+
+        const stopwatchOffset = new Date();
+        stopwatchOffset.setSeconds(stopwatchOffset.getSeconds() + Math.floor((stopwatchOffset.getTime() - new Date(res.time).getTime())/1000));
+        reset(stopwatchOffset);
+      if (res.attempts && res.attempts.length === MAX_CHALLENGES) {
+        setIsGameLost(true)
+        showErrorAlert(CORRECT_WORD_MESSAGE(res.solution), {
+          persist: true,
+        })
+      }
+      
+      setSolution(res.solution.toUpperCase());
+      if (res.attempts)
+        setGuesses(res.attempts.map((x: any) => x.guess));
+    });
+    
+    return []
   })
+
+
 
   const [stats, setStats] = useState(() => loadStats())
 
@@ -84,16 +103,6 @@ function App() {
       ? localStorage.getItem('gameMode') === 'hard'
       : false
   )
-
-  useEffect(() => {
-    // if no game state on load,
-    // show the user the how-to info modal
-    if (!loadGameStateFromLocalStorage()) {
-      setTimeout(() => {
-        setIsInfoModalOpen(true)
-      }, WELCOME_INFO_MODAL_MS)
-    }
-  })
 
   useEffect(() => {
     DISCOURAGE_INAPP_BROWSERS &&
@@ -109,15 +118,11 @@ function App() {
   }
 
   useEffect(() => {
-    saveGameStateToLocalStorage({ guesses, solution })
-  }, [guesses])
-
-  useEffect(() => {
     if (isGameWon) {
       const winMessage =
         WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
       const delayMs = REVEAL_TIME_MS * solution.length
-
+      pause();
       showSuccessAlert(winMessage, {
         delayMs,
         onClose: () => setIsStatsModalOpen(true),
@@ -168,7 +173,7 @@ function App() {
 
     // enforce hard mode - all guesses must contain all previously revealed letters
     if (isHardMode) {
-      const firstMissingReveal = findFirstUnusedReveal(currentGuess, guesses)
+      const firstMissingReveal = findFirstUnusedReveal(currentGuess, guesses, solution)
       if (firstMissingReveal) {
         setCurrentRowClass('jiggle')
         return showErrorAlert(firstMissingReveal, {
@@ -176,6 +181,10 @@ function App() {
         })
       }
     }
+    
+    GameService.attempt(authHeader(), currentGuess).then((res) => {
+      console.log(res);
+    });
 
     setIsRevealing(true)
     // turn this back off after all
@@ -184,7 +193,7 @@ function App() {
       setIsRevealing(false)
     }, REVEAL_TIME_MS * solution.length)
 
-    const winningWord = isWinningWord(currentGuess)
+    const winningWord = isWinningWord(currentGuess, solution)
 
     if (
       unicodeLength(currentGuess) === solution.length &&
@@ -264,7 +273,7 @@ function App() {
                 <div className="timer__icon">
                   <Image src={IconTimer} />
                 </div>
-                <div className="timer__value">01:33</div>
+                <div className="timer__value">{(minutes > 9 ? '': '0') + minutes}:{(seconds > 9 ? '': '0') + seconds}</div>
               </div>
             </Col>
             <Col xs={'auto'}>
@@ -272,7 +281,7 @@ function App() {
             </Col>
             <Col className="pb-1">
               <div className="rank">
-                54 <span className="rank__delimiter"></span> 420
+                ? <span className="rank__delimiter"></span> ??
               </div>
             </Col>
           </Row>

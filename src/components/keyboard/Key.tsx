@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { CharStatus } from '../../lib/statuses'
 import { REVEAL_TIME_MS } from '../../constants/settings'
 import { getStoredIsHighContrastMode } from '../../lib/localStorage'
-import { solution } from '../../lib/words'
+import { solutionLength } from '../../lib/words'
 import { Col } from 'react-bootstrap'
 
 type Props = {
@@ -24,7 +24,7 @@ export const Key = ({
                       isRevealing,
                       large
                     }: Props) => {
-  const keyDelayMs = REVEAL_TIME_MS * solution.length
+  const keyDelayMs = REVEAL_TIME_MS * solutionLength
   const isHighContrast = getStoredIsHighContrastMode()
 
   const classes = classnames(

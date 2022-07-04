@@ -1,5 +1,5 @@
 import { Cell } from './Cell'
-import { solution, unicodeSplit } from '../../lib/words'
+import { solutionLength, unicodeSplit } from '../../lib/words'
 
 type Props = {
   guess: string
@@ -8,7 +8,7 @@ type Props = {
 
 export const CurrentRow = ({ guess, className }: Props) => {
   const splitGuess = unicodeSplit(guess)
-  const emptyCells = Array.from(Array(solution.length - splitGuess.length))
+  const emptyCells = Array.from(Array(solutionLength - splitGuess.length))
   const classes = `grid__row ${className}`
 
   return (
