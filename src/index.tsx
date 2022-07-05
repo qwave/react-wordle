@@ -7,7 +7,6 @@ import Auth from './views/Auth'
 import Home from './views/Home'
 import Rating from './views/Rating'
 import Rules from './views/Rules'
-import Result from './views/Result'
 import reportWebVitals from './reportWebVitals'
 import { AlertProvider } from './context/AlertContext'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
@@ -34,14 +33,6 @@ ReactDOM.render(
               element={
                 <RequireAuth loginPath={'/auth'}>
                   <Rating />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path={'/result'}
-              element={
-                <RequireAuth loginPath={'/auth'}>
-                  <Result />
                 </RequireAuth>
               }
             />

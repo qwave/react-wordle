@@ -6,6 +6,7 @@ import { Keyboard } from './components/keyboard/Keyboard'
 import { InfoModal } from './components/modals/InfoModal'
 import { StatsModal } from './components/modals/StatsModal'
 import { SettingsModal } from './components/modals/SettingsModal'
+import { ResultModal } from './components/modals/ResultModal'
 import {
   WIN_MESSAGES,
   GAME_COPIED_MESSAGE,
@@ -55,6 +56,7 @@ function App() {
   const [currentGuess, setCurrentGuess] = useState('')
   const [isGameWon, setIsGameWon] = useState(false)
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
+  const [isFinishModalOpen, setIsFinishModalOpen] = useState(false)
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
   const [isMigrateStatsModalOpen, setIsMigrateStatsModalOpen] = useState(false)
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
@@ -62,7 +64,12 @@ function App() {
   const [isGameLost, setIsGameLost] = useState(false)
   const [isRevealing, setIsRevealing] = useState(false)
   const [solution, setSolution] = useState('')
-  const [guesses, setGuesses] = useState<string[]>(() => {
+  const [guesses, setGuesses] = useState<string[]>([])
+
+  const startGame = () => {
+    setIsFinishModalOpen(false);
+    setIsGameLost(false)
+    setIsGameWon(false)
     GameService.start(authHeader()).then((res) => {
       console.log(res)
 
@@ -82,11 +89,16 @@ function App() {
       setSolution(
         Buffer.from(res.solution, 'base64').toString('utf8').toUpperCase()
       )
-      if (res.attempts) setGuesses(res.attempts.map((x: any) => x.guess))
+      let attempts = [];
+      if (res.attempts) 
+        attempts = res.attempts.map((x: any) => x.guess)
+      setGuesses(attempts);
     })
+  }
 
-    return []
-  })
+  useEffect(() => {
+    startGame()
+  }, [])
 
   const [stats, setStats] = useState(() => loadStats())
 
@@ -117,13 +129,13 @@ function App() {
       pause()
       showSuccessAlert(winMessage, {
         delayMs,
-        onClose: () => setIsStatsModalOpen(true),
+        onClose: () => setIsFinishModalOpen(true),
       })
     }
 
     if (isGameLost) {
       setTimeout(() => {
-        setIsStatsModalOpen(true)
+        setIsFinishModalOpen(true)
       }, (solution.length + 1) * REVEAL_TIME_MS)
     }
   }, [isGameWon, isGameLost, showSuccessAlert])
@@ -316,6 +328,12 @@ function App() {
           <AlertContainer />
         </div>
       </div>
+      <ResultModal 
+        show={isFinishModalOpen} 
+        onHide={() => setIsFinishModalOpen(false)} 
+        minutes={minutes} 
+        seconds={seconds} 
+        startgame={() => { startGame() }}/>
     </main>
     /*<div className="h-screen flex flex-col">
       <Navbar
