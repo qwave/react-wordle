@@ -1,7 +1,7 @@
 import { getStatuses } from '../../lib/statuses'
 import { Key } from './Key'
 import { useEffect } from 'react'
-import { ENTER_TEXT, DELETE_TEXT } from '../../constants/strings'
+import { ENTER_TEXT } from '../../constants/strings'
 import { localeAwareUpperCase } from '../../lib/words'
 import { BackspaceIcon } from '@heroicons/react/outline'
 import { Row } from 'react-bootstrap'
@@ -56,17 +56,19 @@ export const Keyboard = ({
   }, [onEnter, onDelete, onChar])
 
   return (
-    <div className='keyboard'>
+    <div className="keyboard">
       <Row className="justify-content-center flex-nowrap">
-        {['Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ'].map((key) => (
-          <Key
-            value={key}
-            key={key}
-            onClick={onClick}
-            status={charStatuses[key]}
-            isRevealing={isRevealing}
-          />
-        ))}
+        {['Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ'].map(
+          (key) => (
+            <Key
+              value={key}
+              key={key}
+              onClick={onClick}
+              status={charStatuses[key]}
+              isRevealing={isRevealing}
+            />
+          )
+        )}
       </Row>
       <Row className="justify-content-center flex-nowrap">
         {['Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э'].map((key) => (

@@ -40,22 +40,15 @@ import dogImage from './assets/images/background/dog.png'
 import catSmallImage from './assets/images/background/cat-small.png'
 import IconTimer from './assets/icons/timer.svg'
 import GameService from './services/game.service'
-import {useAuthHeader} from 'react-auth-kit'
-import { useStopwatch } from 'react-timer-hook';
+import { useAuthHeader } from 'react-auth-kit'
+import { useStopwatch } from 'react-timer-hook'
+import { Buffer } from 'buffer'
 
 function App() {
   const authHeader = useAuthHeader()
-  
-  const {
-    seconds,
-    minutes,
-    hours,
-    days,
-    isRunning,
-    start,
-    pause,
-    reset,
-  } = useStopwatch({ autoStart: false });
+
+  const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
+    useStopwatch({ autoStart: false })
 
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
     useAlert()
@@ -71,30 +64,29 @@ function App() {
   const [solution, setSolution] = useState('')
   const [guesses, setGuesses] = useState<string[]>(() => {
     GameService.start(authHeader()).then((res) => {
-      console.log(res);
-      
-      if (!res.solution)
-        return; 
+      console.log(res)
 
-        const stopwatchOffset = new Date();
-        stopwatchOffset.setSeconds(stopwatchOffset.getSeconds() + Math.floor((stopwatchOffset.getTime() - new Date(res.time).getTime())/1000));
-        reset(stopwatchOffset);
+      if (!res.solution) return
+
+      const stopwatchOffset = new Date()
+      stopwatchOffset.setSeconds(stopwatchOffset.getSeconds() + res.duration)
+      reset(stopwatchOffset)
+
       if (res.attempts && res.attempts.length === MAX_CHALLENGES) {
         setIsGameLost(true)
         showErrorAlert(CORRECT_WORD_MESSAGE(res.solution), {
           persist: true,
         })
       }
-      
-      setSolution(res.solution.toUpperCase());
-      if (res.attempts)
-        setGuesses(res.attempts.map((x: any) => x.guess));
-    });
-    
+
+      setSolution(
+        Buffer.from(res.solution, 'base64').toString('utf8').toUpperCase()
+      )
+      if (res.attempts) setGuesses(res.attempts.map((x: any) => x.guess))
+    })
+
     return []
   })
-
-
 
   const [stats, setStats] = useState(() => loadStats())
 
@@ -122,7 +114,7 @@ function App() {
       const winMessage =
         WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
       const delayMs = REVEAL_TIME_MS * solution.length
-      pause();
+      pause()
       showSuccessAlert(winMessage, {
         delayMs,
         onClose: () => setIsStatsModalOpen(true),
@@ -156,7 +148,7 @@ function App() {
     if (isGameWon || isGameLost) {
       return
     }
-
+    console.log(solution, unicodeLength(currentGuess), solution.length)
     if (!(unicodeLength(currentGuess) === solution.length)) {
       setCurrentRowClass('jiggle')
       return showErrorAlert(NOT_ENOUGH_LETTERS_MESSAGE, {
@@ -173,7 +165,11 @@ function App() {
 
     // enforce hard mode - all guesses must contain all previously revealed letters
     if (isHardMode) {
-      const firstMissingReveal = findFirstUnusedReveal(currentGuess, guesses, solution)
+      const firstMissingReveal = findFirstUnusedReveal(
+        currentGuess,
+        guesses,
+        solution
+      )
       if (firstMissingReveal) {
         setCurrentRowClass('jiggle')
         return showErrorAlert(firstMissingReveal, {
@@ -181,10 +177,10 @@ function App() {
         })
       }
     }
-    
+
     GameService.attempt(authHeader(), currentGuess).then((res) => {
-      console.log(res);
-    });
+      console.log(res)
+    })
 
     setIsRevealing(true)
     // turn this back off after all
@@ -273,7 +269,10 @@ function App() {
                 <div className="timer__icon">
                   <Image src={IconTimer} />
                 </div>
-                <div className="timer__value">{(minutes > 9 ? '': '0') + minutes}:{(seconds > 9 ? '': '0') + seconds}</div>
+                <div className="timer__value">
+                  {(minutes > 9 ? '' : '0') + minutes}:
+                  {(seconds > 9 ? '' : '0') + seconds}
+                </div>
               </div>
             </Col>
             <Col xs={'auto'}>

@@ -1,10 +1,27 @@
 import axios from 'axios'
-import authHeader from './auth-header'
 
-const API_URL = 'http://localhost:8080/api/'
+const API_URL = 'http://localhost:3300/api/'
 
-class UserService {
-
+const getHeader = (token: string) => {
+  return {
+    Authorization: token,
+  }
 }
 
-export default new UserService()
+const getStatus = (token: string) => {
+  return axios
+    .post(
+      API_URL + 'users/status',
+      {},
+      {
+        headers: getHeader(token),
+      }
+    )
+    .then((response) => {
+      return response.data
+    })
+}
+
+export default {
+  getStatus,
+}
