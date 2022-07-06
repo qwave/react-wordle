@@ -67,7 +67,7 @@ function App() {
   const [guesses, setGuesses] = useState<string[]>([])
 
   const startGame = () => {
-    setIsFinishModalOpen(false);
+    setIsFinishModalOpen(false)
     setIsGameLost(false)
     setIsGameWon(false)
     GameService.start(authHeader()).then((res) => {
@@ -89,10 +89,9 @@ function App() {
       setSolution(
         Buffer.from(res.solution, 'base64').toString('utf8').toUpperCase()
       )
-      let attempts = [];
-      if (res.attempts) 
-        attempts = res.attempts.map((x: any) => x.guess)
-      setGuesses(attempts);
+      let attempts = []
+      if (res.attempts) attempts = res.attempts.map((x: any) => x.guess)
+      setGuesses(attempts)
     })
   }
 
@@ -127,10 +126,10 @@ function App() {
         WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
       const delayMs = REVEAL_TIME_MS * solution.length
       pause()
-      showSuccessAlert(winMessage, {
-        delayMs,
-        onClose: () => setIsFinishModalOpen(true),
-      })
+
+      setTimeout(() => {
+        setIsFinishModalOpen(true)
+      }, delayMs)
     }
 
     if (isGameLost) {
@@ -328,12 +327,15 @@ function App() {
           <AlertContainer />
         </div>
       </div>
-      <ResultModal 
-        show={isFinishModalOpen} 
-        onHide={() => setIsFinishModalOpen(false)} 
-        minutes={minutes} 
-        seconds={seconds} 
-        startgame={() => { startGame() }}/>
+      <ResultModal
+        show={isFinishModalOpen}
+        onHide={() => setIsFinishModalOpen(false)}
+        minutes={minutes}
+        seconds={seconds}
+        startgame={() => {
+          startGame()
+        }}
+      />
     </main>
     /*<div className="h-screen flex flex-col">
       <Navbar
