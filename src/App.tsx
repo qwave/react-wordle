@@ -121,21 +121,14 @@ function App() {
   }
 
   useEffect(() => {
-    if (isGameWon) {
-      const winMessage =
-        WIN_MESSAGES[Math.floor(Math.random() * WIN_MESSAGES.length)]
+    if (isGameWon || isGameLost)
+    {
       const delayMs = REVEAL_TIME_MS * solution.length
       pause()
 
       setTimeout(() => {
         setIsFinishModalOpen(true)
       }, delayMs)
-    }
-
-    if (isGameLost) {
-      setTimeout(() => {
-        setIsFinishModalOpen(true)
-      }, (solution.length + 1) * REVEAL_TIME_MS)
     }
   }, [isGameWon, isGameLost, showSuccessAlert])
 
@@ -332,6 +325,8 @@ function App() {
         onHide={() => setIsFinishModalOpen(false)}
         minutes={minutes}
         seconds={seconds}
+        solution={solution}
+        isGameWon={isGameWon}
         startgame={() => {
           startGame()
         }}

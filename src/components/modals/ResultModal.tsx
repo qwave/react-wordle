@@ -6,6 +6,8 @@ import IconTimer from '../../assets/icons/timer.svg'
 type ResultModalOwnProps = {
   minutes: number,
   seconds: number,
+  solution: string,
+  isGameWon: boolean,
   startgame: () => void
 }
 
@@ -21,10 +23,10 @@ export const ResultModal = (props: ResultModalProps) => {
       dialogClassName={'result-dialog'}
     >
       <Modal.Body className='result'>
-        <div className='result__title'>Слово угадано!</div>
-        {/*<div className='result__title'>ЗАГАДАННОЕ СЛОВО</div>
-        <div className='result__text'>Кошка</div>*/}
-        <div className='result__timer'>
+        {props.isGameWon ? <div className='result__title'>Слово угадано!</div> : <>
+        <div className='result__title'>ЗАГАДАННОЕ СЛОВО</div>
+        <div className='result__text'>{props.solution}</div></>}
+        {props.isGameWon && <div className='result__timer'>
           <div className='result__timer-title'>Твоё время:</div>
           <div className='timer'>
             <div className='timer__icon'>
@@ -35,7 +37,7 @@ export const ResultModal = (props: ResultModalProps) => {
               {(props.seconds > 9 ? '' : '0') + props.seconds}
             </div>
           </div>
-        </div>
+        </div>}
         <div className='result__fact'>
           <div className='result__fact-label'>
             <Image src={IconSearch} />
