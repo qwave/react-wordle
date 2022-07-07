@@ -81,9 +81,9 @@ function App() {
 
       if (res.attempts && res.attempts.length === MAX_CHALLENGES) {
         setIsGameLost(true)
-        showErrorAlert(CORRECT_WORD_MESSAGE(res.solution), {
+        /* showErrorAlert(CORRECT_WORD_MESSAGE(res.solution), {
           persist: true,
-        })
+        }) */
       }
 
       setSolution(
@@ -121,8 +121,7 @@ function App() {
   }
 
   useEffect(() => {
-    if (isGameWon || isGameLost)
-    {
+    if (isGameWon || isGameLost) {
       const delayMs = REVEAL_TIME_MS * solution.length
       pause()
 
@@ -211,10 +210,10 @@ function App() {
       if (guesses.length === MAX_CHALLENGES - 1) {
         setStats(addStatsForCompletedGame(stats, guesses.length + 1))
         setIsGameLost(true)
-        showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
+        /* showErrorAlert(CORRECT_WORD_MESSAGE(solution), {
           persist: true,
           delayMs: REVEAL_TIME_MS * solution.length + 1,
-        })
+        }) */
       }
     }
   }
