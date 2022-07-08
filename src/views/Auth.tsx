@@ -54,7 +54,7 @@ const Login = (props: any) => {
           error.toString()
 
         setLoading(false)
-        setMessage(resMessage)
+        setMessage('Неверный e-mail')
       }
     )
   }
@@ -115,7 +115,7 @@ const Login = (props: any) => {
                   )}
                 </Button>
                 {message && (
-                  <div className='form-group'>
+                  <div className='form-group mt-1'>
                     <div className='alert alert-danger' role='alert'>
                       {message}
                     </div>

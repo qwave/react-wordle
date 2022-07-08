@@ -12,7 +12,7 @@ import React, { useState, useEffect, useRef } from 'react'
 
 export default function Rating() {
   const authHeader = useAuthHeader()
-  
+
   const [users, setUsers] = useState<any[]>([])
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export default function Rating() {
               </table>
             </div>
             <div className='rating__actions'>
-              <LinkContainer to='/game'>
+              <LinkContainer to='/playday'>
                 <Button className='btn-block'>Играть!</Button>
               </LinkContainer>
             </div>

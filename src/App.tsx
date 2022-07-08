@@ -44,11 +44,11 @@ import GameService from './services/game.service'
 import { useAuthHeader } from 'react-auth-kit'
 import { useStopwatch } from 'react-timer-hook'
 import { Buffer } from 'buffer'
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
 function App() {
   const authHeader = useAuthHeader()
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false })
@@ -66,8 +66,8 @@ function App() {
   const [isGameLost, setIsGameLost] = useState(false)
   const [isRevealing, setIsRevealing] = useState(false)
   const [solution, setSolution] = useState('')
-  const [position, setPosition] = useState('?')
-  const [ranking, setRanking] = useState('?')
+  const [position, setPosition] = useState('0')
+  const [ranking, setRanking] = useState('0')
   const [guesses, setGuesses] = useState<string[]>([])
 
   const startGame = () => {
@@ -78,8 +78,8 @@ function App() {
       console.log(res)
 
       if (!res.solution) {
-        navigate("/rating");
-        return;
+        navigate('/rating')
+        return
       }
 
       const stopwatchOffset = new Date()

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:3300/api/'
+const API_URL = process.env.REACT_APP_API_URL
 
 const getHeader = (token: string) => {
   return {

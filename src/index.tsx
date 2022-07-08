@@ -5,6 +5,7 @@ import './assets/styles/App.scss'
 import App from './App'
 import Auth from './views/Auth'
 import Home from './views/Home'
+import Playday from './views/Playday'
 import Rating from './views/Rating'
 import Rules from './views/Rules'
 import reportWebVitals from './reportWebVitals'
@@ -29,10 +30,10 @@ ReactDOM.render(
               }
             />
             <Route
-              path={'/rating'}
+              path={'/playday'}
               element={
                 <RequireAuth loginPath={'/auth'}>
-                  <Rating />
+                  <Playday />
                 </RequireAuth>
               }
             />
@@ -49,6 +50,14 @@ ReactDOM.render(
               element={
                 <RequireAuth loginPath={'/auth'}>
                   <App />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path={'/rating'}
+              element={
+                <RequireAuth loginPath={'/auth'}>
+                  <Rating />
                 </RequireAuth>
               }
             />
