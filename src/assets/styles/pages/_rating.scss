@@ -144,7 +144,7 @@
   border-spacing: 2px;
   border-collapse: separate;
 
-  th:first-child {
+  th:nth-child(2) {
     text-align: left;
   }
 
@@ -152,7 +152,11 @@
     padding: 8px 0.923rem;
     font-weight: 700;
 
-    &:not(:first-child) {
+    &:first-child {
+      width: 1px;
+    }
+
+    &:not(:nth-child(2)) {
       text-align: center;
     }
   }

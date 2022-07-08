@@ -62,6 +62,7 @@ export default function Rating() {
               <table className='rating__table'>
                 <thead>
                   <tr>
+                    <th>#</th>
                     <th>Фамилия Имя</th>
                     <th>Количество<br />слов</th>
                     <th>Время<br />мин:сек</th>
@@ -70,7 +71,8 @@ export default function Rating() {
                 <tbody>
                 {[...Array(9)].map((val,index) => (
                   <tr key={index}>
-                    <th>{users.length > index + 1 ? users[index + 1].name : '-'}</th>
+                    <td>{index + 2}</td>
+                    <td>{users.length > index + 1 ? users[index + 1].name : '-'}</td>
                     <td>{users.length > index + 1 ? users[index + 1].wordcount : '-'}</td>
                     <td>{users.length > index + 1 ? Math.floor(users[index + 1].time / 60) + ':' + users[index + 1].time % 60 : ''}</td>
                   </tr>
