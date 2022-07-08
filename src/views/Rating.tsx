@@ -8,17 +8,23 @@ import dogImage from '../assets/images/background/dog.png'
 import catSmallImage from '../assets/images/background/cat-small.png'
 import { useAuthHeader } from 'react-auth-kit'
 import GameService from '../services/game.service'
+import UserService from '../services/user.service'
 import React, { useState, useEffect, useRef } from 'react'
 
 export default function Rating() {
   const authHeader = useAuthHeader()
 
   const [users, setUsers] = useState<any[]>([])
+  const [gameAvailable, setGameAvailable] = useState<boolean>(false)
 
   useEffect(() => {
      GameService.rating(authHeader()).then((res) => {
       console.log(res)
       setUsers(res);
+    })
+
+    UserService.getStatus(authHeader()).then((resp) => {
+      setGameAvailable(resp.status === 0)
     })
   }, [])
 
@@ -90,11 +96,13 @@ export default function Rating() {
                 </tbody>
               </table>
             </div>
-            <div className='rating__actions'>
-              <LinkContainer to='/playday'>
-                <Button className='btn-block'>Играть!</Button>
-              </LinkContainer>
-            </div>
+            {gameAvailable && 
+              <div className='rating__actions'>
+                <LinkContainer to='/playday'>
+                  <Button className='btn-block'>Играть!</Button>
+                </LinkContainer>
+              </div>
+            }
           </div>
         </Container>
       </div>
