@@ -6,9 +6,22 @@ import blImage from '../assets/images/letters/bl.png'
 import akmImage from '../assets/images/letters/akm.png'
 import dogImage from '../assets/images/background/dog.png'
 import catSmallImage from '../assets/images/background/cat-small.png'
-import React from 'react'
+import { useAuthHeader } from 'react-auth-kit'
+import GameService from '../services/game.service'
+import React, { useState, useEffect, useRef } from 'react'
 
 export default function Rating() {
+  const authHeader = useAuthHeader()
+  
+  const [users, setUsers] = useState<any[]>([])
+
+  useEffect(() => {
+     GameService.rating(authHeader()).then((res) => {
+      console.log(res)
+      setUsers(res);
+    })
+  }, [])
+
   return (
     <main className={'main main--rating'}>
       <div className='main__background'>
@@ -43,23 +56,23 @@ export default function Rating() {
               <div className='rating__top'>
                 <div className='rating__top-content'>
                   <div className='rating__top-title'><span>1</span>место</div>
-                  <div className='rating__top-text'><span>Иванок Сергей</span> 37 слов</div>
+                  <div className='rating__top-text'><span>{users.length > 0 ? users[0].name: 'Mr. Nobody :)'}</span> {users.length > 0 ? users[0].wordcount: '0'} слов</div>
                 </div>
               </div>
               <table className='rating__table'>
                 <thead>
-                <th>Фамилия Имя</th>
-                <th>Количество<br />
-                  слов
-                </th>
-                <th>Время<br />мин:сек</th>
+                  <tr>
+                    <th>Фамилия Имя</th>
+                    <th>Количество<br />слов</th>
+                    <th>Время<br />мин:сек</th>
+                </tr>
                 </thead>
                 <tbody>
-                {[...Array(8)].map((key) => (
-                  <tr>
-                    <th>Сергеев Иван</th>
-                    <td>35</td>
-                    <td>40</td>
+                {[...Array(9)].map((val,index) => (
+                  <tr key={index}>
+                    <th>{users.length > index + 1 ? users[index + 1].name : '-'}</th>
+                    <td>{users.length > index + 1 ? users[index + 1].wordcount : '-'}</td>
+                    <td>{users.length > index + 1 ? Math.floor(users[index + 1].time / 60) + ':' + users[index + 1].time % 60 : ''}</td>
                   </tr>
                 ))}
                 </tbody>

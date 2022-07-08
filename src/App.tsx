@@ -44,9 +44,11 @@ import GameService from './services/game.service'
 import { useAuthHeader } from 'react-auth-kit'
 import { useStopwatch } from 'react-timer-hook'
 import { Buffer } from 'buffer'
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const authHeader = useAuthHeader()
+  const navigate = useNavigate();
 
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false })
@@ -64,6 +66,8 @@ function App() {
   const [isGameLost, setIsGameLost] = useState(false)
   const [isRevealing, setIsRevealing] = useState(false)
   const [solution, setSolution] = useState('')
+  const [position, setPosition] = useState('?')
+  const [ranking, setRanking] = useState('?')
   const [guesses, setGuesses] = useState<string[]>([])
 
   const startGame = () => {
@@ -73,7 +77,10 @@ function App() {
     GameService.start(authHeader()).then((res) => {
       console.log(res)
 
-      if (!res.solution) return
+      if (!res.solution) {
+        navigate("/rating");
+        return;
+      }
 
       const stopwatchOffset = new Date()
       stopwatchOffset.setSeconds(stopwatchOffset.getSeconds() + res.duration)
@@ -91,7 +98,10 @@ function App() {
       )
       let attempts = []
       if (res.attempts) attempts = res.attempts.map((x: any) => x.guess)
+
       setGuesses(attempts)
+      if (res.position >= 0) setPosition((res.position + 1).toString())
+      if (res.rankingcount > 0) setRanking(res.rankingcount)
     })
   }
 
@@ -283,7 +293,7 @@ function App() {
             </Col>
             <Col className="pb-1">
               <div className="rank">
-                ? <span className="rank__delimiter"></span> ??
+                {position} <span className="rank__delimiter"></span> {ranking}
               </div>
             </Col>
           </Row>

@@ -38,7 +38,21 @@ const attempt = (token: string, word: string) => {
     })
 }
 
+const rating = (token: string) => {
+  return axios
+    .get(
+      API_URL + 'game/rating',
+      {
+        headers: getHeader(token),
+      }
+    )
+    .then((response) => {
+      return response.data
+    })
+}
+
 export default {
   start,
   attempt,
+  rating
 }
