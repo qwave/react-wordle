@@ -22,6 +22,16 @@ export default function Rating() {
     })
   }, [])
 
+  const isOwnRating = (users: any[], index: number) => {
+    return users.length > index + 1 && users[index + 1].position;
+  }
+
+  const formatTimeFromSeconds = (time: number) => {
+    let min = Math.floor(time / 60)
+    let sec = time % 60
+    return (min > 9 ? '' : '0') + min + ':' + (sec > 9 ? '' : '0') + sec
+  }
+
   return (
     <main className={'main main--rating'}>
       <div className='main__background'>
@@ -55,7 +65,7 @@ export default function Rating() {
               </div>
               <div className='rating__top'>
                 <div className='rating__top-content'>
-                  <div className='rating__top-title'><span>1</span>место</div>
+                  <div className='rating__top-title'><span className={isOwnRating(users,0) ? 'rating__own' : ''}>1</span>место</div>
                   <div className='rating__top-text'><span>{users.length > 0 ? users[0].name: 'Mr. Nobody :)'}</span> {users.length > 0 ? users[0].wordcount: '0'} слов</div>
                 </div>
               </div>
@@ -66,15 +76,15 @@ export default function Rating() {
                     <th>Фамилия Имя</th>
                     <th>Количество<br />слов</th>
                     <th>Время<br />мин:сек</th>
-                </tr>
+                  </tr>
                 </thead>
                 <tbody>
                 {[...Array(9)].map((val,index) => (
                   <tr key={index}>
-                    <td>{index + 2}</td>
+                    {isOwnRating(users,index) ? <td className='rating__own'>{users[index + 1].position + 1}</td> : <td>{index + 2}</td>}
                     <td>{users.length > index + 1 ? users[index + 1].name : '-'}</td>
                     <td>{users.length > index + 1 ? users[index + 1].wordcount : '-'}</td>
-                    <td>{users.length > index + 1 ? Math.floor(users[index + 1].time / 60) + ':' + users[index + 1].time % 60 : ''}</td>
+                    <td>{users.length > index + 1 ? formatTimeFromSeconds(users[index + 1].time) : ''}</td>
                   </tr>
                 ))}
                 </tbody>
