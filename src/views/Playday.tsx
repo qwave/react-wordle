@@ -32,6 +32,7 @@ export default function Welcome() {
   useEffect(() => {
     UserService.getStatus(authHeader()).then((resp) => {
       setStatus(resp)
+      localStorage.setItem('status', resp.status)
     })
   }, [setStatus])
 

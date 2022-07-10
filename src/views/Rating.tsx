@@ -25,6 +25,7 @@ export default function Rating() {
 
     UserService.getStatus(authHeader()).then((resp) => {
       setGameAvailable(resp.status === 0)
+      localStorage.setItem('status', resp.status)
     })
   }, [])
 
@@ -96,7 +97,7 @@ export default function Rating() {
                 </tbody>
               </table>
             </div>
-            {gameAvailable && 
+            {gameAvailable &&
               <div className='rating__actions'>
                 <LinkContainer to='/playday'>
                   <Button className='btn-block'>Играть!</Button>
