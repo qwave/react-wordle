@@ -34,7 +34,7 @@ export default function Welcome() {
       setStatus(resp)
       localStorage.setItem('status', resp.status)
     })
-  }, [setStatus, authHeader])
+  })
 
   return (
     <main className={'main main--playday'}>

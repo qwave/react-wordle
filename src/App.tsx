@@ -55,12 +55,12 @@ function App() {
   const [ranking, setRanking] = useState('0')
   const [guesses, setGuesses] = useState<string[]>([])
 
-  const startGame = React.useCallback(() => {
+  const startGame = () => {
     setIsFinishModalOpen(false)
     setIsGameLost(false)
     setIsGameWon(false)
     GameService.start(authHeader()).then((res) => {
-      console.log(res)
+      //console.log(res)
 
       if (!res.solution) {
         navigate('/rating')
@@ -88,11 +88,11 @@ function App() {
       if (res.position >= 0) setPosition((res.position + 1).toString())
       if (res.rankingcount > 0) setRanking(res.rankingcount)
     })
-  }, [authHeader, navigate, reset])
+  }
 
   useEffect(() => {
     startGame()
-  }, [startGame])
+  })
 
   const [stats, setStats] = useState(() => loadStats())
 
@@ -146,7 +146,7 @@ function App() {
     if (isGameWon || isGameLost) {
       return
     }
-    console.log(solution, unicodeLength(currentGuess), solution.length)
+    //    console.log(solution, unicodeLength(currentGuess), solution.length)
     if (!(unicodeLength(currentGuess) === solution.length)) {
       setCurrentRowClass('jiggle')
       return showErrorAlert(NOT_ENOUGH_LETTERS_MESSAGE, {
@@ -177,7 +177,7 @@ function App() {
     }
 
     GameService.attempt(authHeader(), currentGuess).then((res) => {
-      console.log(res)
+      //      console.log(res)
     })
 
     setIsRevealing(true)
