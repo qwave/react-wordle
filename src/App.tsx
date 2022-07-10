@@ -40,7 +40,8 @@ function App() {
   const authHeader = useAuthHeader()
   const navigate = useNavigate()
 
-  const { seconds, minutes, pause, reset } = useStopwatch({ autoStart: false })
+  const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
+    useStopwatch({ autoStart: false })
 
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
     useAlert()
@@ -60,8 +61,6 @@ function App() {
     setIsGameLost(false)
     setIsGameWon(false)
     GameService.start(authHeader()).then((res) => {
-      //console.log(res)
-
       if (!res.solution) {
         navigate('/rating')
         return
@@ -92,7 +91,7 @@ function App() {
 
   useEffect(() => {
     startGame()
-  })
+  }, [])
 
   const [stats, setStats] = useState(() => loadStats())
 
@@ -124,7 +123,7 @@ function App() {
         setIsFinishModalOpen(true)
       }, delayMs)
     }
-  }, [isGameWon, isGameLost, showSuccessAlert, pause, solution])
+  }, [isGameWon, isGameLost, showSuccessAlert])
 
   const onChar = (value: string) => {
     if (
@@ -146,7 +145,7 @@ function App() {
     if (isGameWon || isGameLost) {
       return
     }
-    //    console.log(solution, unicodeLength(currentGuess), solution.length)
+    //console.log(solution, unicodeLength(currentGuess), solution.length)
     if (!(unicodeLength(currentGuess) === solution.length)) {
       setCurrentRowClass('jiggle')
       return showErrorAlert(NOT_ENOUGH_LETTERS_MESSAGE, {
@@ -177,7 +176,7 @@ function App() {
     }
 
     GameService.attempt(authHeader(), currentGuess).then((res) => {
-      //      console.log(res)
+      //console.log(res)
     })
 
     setIsRevealing(true)
