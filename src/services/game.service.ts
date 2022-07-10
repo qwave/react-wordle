@@ -51,8 +51,10 @@ const rating = (token: string) => {
     })
 }
 
-export default {
+const GameService = {
   start,
   attempt,
   rating
 }
+
+export default GameService

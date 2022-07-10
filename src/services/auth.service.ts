@@ -23,8 +23,10 @@ const getCurrentUser = () => {
   return null
 }
 
-export default {
+const AuthService = {
   login,
   logout,
   getCurrentUser
 }
+
+export default AuthService

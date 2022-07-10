@@ -1,6 +1,5 @@
 import { Button, Col, Container, Image, Row } from 'react-bootstrap'
 import siteLogo from '../assets/images/site-logo.png'
-import { Key } from '../components/keyboard/Key'
 import { LinkContainer } from 'react-router-bootstrap'
 import blImage from '../assets/images/letters/bl.png'
 import akmImage from '../assets/images/letters/akm.png'
@@ -9,7 +8,7 @@ import catSmallImage from '../assets/images/background/cat-small.png'
 import { useAuthHeader } from 'react-auth-kit'
 import GameService from '../services/game.service'
 import UserService from '../services/user.service'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 
 export default function Rating() {
   const authHeader = useAuthHeader()
@@ -27,7 +26,7 @@ export default function Rating() {
       setGameAvailable(resp.status === 0)
       localStorage.setItem('status', resp.status)
     })
-  }, [])
+  }, [authHeader])
 
   const isOwnRating = (users: any[], index: number) => {
     return users.length > index + 1 && users[index + 1].position;

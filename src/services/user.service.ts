@@ -22,6 +22,8 @@ const getStatus = (token: string) => {
     })
 }
 
-export default {
-  getStatus,
+const UserService = {
+  getStatus
 }
+
+export default UserService

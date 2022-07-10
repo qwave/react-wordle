@@ -3,23 +3,15 @@ import { Col, Container, Image, Row } from 'react-bootstrap'
 import siteLogo from './assets/images/site-logo.png'
 import { Grid } from './components/grid/Grid'
 import { Keyboard } from './components/keyboard/Keyboard'
-import { InfoModal } from './components/modals/InfoModal'
-import { StatsModal } from './components/modals/StatsModal'
-import { SettingsModal } from './components/modals/SettingsModal'
 import { ResultModal } from './components/modals/ResultModal'
 import {
-  WIN_MESSAGES,
-  GAME_COPIED_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
   WORD_NOT_FOUND_MESSAGE,
-  CORRECT_WORD_MESSAGE,
-  HARD_MODE_ALERT_MESSAGE,
   DISCOURAGE_INAPP_BROWSER_TEXT,
 } from './constants/strings'
 import {
   MAX_CHALLENGES,
   REVEAL_TIME_MS,
-  WELCOME_INFO_MODAL_MS,
   DISCOURAGE_INAPP_BROWSERS,
 } from './constants/settings'
 import {
@@ -34,9 +26,7 @@ import { default as GraphemeSplitter } from 'grapheme-splitter'
 import './App.css'
 import { AlertContainer } from './components/alerts/AlertContainer'
 import { useAlert } from './context/AlertContext'
-import { Navbar } from './components/navbar/Navbar'
 import { isInAppBrowser } from './lib/browser'
-import { MigrateStatsModal } from './components/modals/MigrateStatsModal'
 import dogImage from './assets/images/background/dog.png'
 import catSmallImage from './assets/images/background/cat-small.png'
 import IconTimer from './assets/icons/timer.svg'
@@ -50,18 +40,13 @@ function App() {
   const authHeader = useAuthHeader()
   const navigate = useNavigate()
 
-  const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
-    useStopwatch({ autoStart: false })
+  const { seconds, minutes, pause, reset } = useStopwatch({ autoStart: false })
 
   const { showError: showErrorAlert, showSuccess: showSuccessAlert } =
     useAlert()
   const [currentGuess, setCurrentGuess] = useState('')
   const [isGameWon, setIsGameWon] = useState(false)
-  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
   const [isFinishModalOpen, setIsFinishModalOpen] = useState(false)
-  const [isStatsModalOpen, setIsStatsModalOpen] = useState(false)
-  const [isMigrateStatsModalOpen, setIsMigrateStatsModalOpen] = useState(false)
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false)
   const [currentRowClass, setCurrentRowClass] = useState('')
   const [isGameLost, setIsGameLost] = useState(false)
   const [isRevealing, setIsRevealing] = useState(false)
@@ -70,7 +55,7 @@ function App() {
   const [ranking, setRanking] = useState('0')
   const [guesses, setGuesses] = useState<string[]>([])
 
-  const startGame = () => {
+  const startGame = React.useCallback(() => {
     setIsFinishModalOpen(false)
     setIsGameLost(false)
     setIsGameWon(false)
@@ -103,15 +88,15 @@ function App() {
       if (res.position >= 0) setPosition((res.position + 1).toString())
       if (res.rankingcount > 0) setRanking(res.rankingcount)
     })
-  }
+  }, [authHeader, navigate, reset])
 
   useEffect(() => {
     startGame()
-  }, [])
+  }, [startGame])
 
   const [stats, setStats] = useState(() => loadStats())
 
-  const [isHardMode, setIsHardMode] = useState(
+  const [isHardMode] = useState(
     localStorage.getItem('gameMode')
       ? localStorage.getItem('gameMode') === 'hard'
       : false
@@ -139,7 +124,7 @@ function App() {
         setIsFinishModalOpen(true)
       }, delayMs)
     }
-  }, [isGameWon, isGameLost, showSuccessAlert])
+  }, [isGameWon, isGameLost, showSuccessAlert, pause, solution])
 
   const onChar = (value: string) => {
     if (

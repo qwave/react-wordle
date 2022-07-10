@@ -1,7 +1,6 @@
 import { Fragment } from 'react'
 import { Transition } from '@headlessui/react'
 import { Alert as BAlert } from 'react-bootstrap'
-import classNames from 'classnames'
 
 type Props = {
   isOpen: boolean

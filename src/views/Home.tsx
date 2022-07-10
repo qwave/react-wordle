@@ -1,14 +1,9 @@
 import { Col, Container, Button, Image, Row } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import siteLogo from '../assets/images/site-logo.png'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import dogImage from '../assets/images/background/dog.png'
 import catSmallImage from '../assets/images/background/cat-small.png'
-
-type Status = {
-  day: number
-  status: number
-}
 
 export default function Welcome() {
   return (

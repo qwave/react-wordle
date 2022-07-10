@@ -46,13 +46,6 @@ const Login = (props: any) => {
         }
       },
       error => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString()
-
         setLoading(false)
         setMessage('Неверный e-mail')
       }

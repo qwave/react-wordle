@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Button, Image, Modal, ModalProps } from 'react-bootstrap'
 import IconSearch from '../../assets/icons/search.svg'
 import IconTimer from '../../assets/icons/timer.svg'
