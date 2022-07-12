@@ -26,7 +26,7 @@ export default function Rating() {
       setGameAvailable(resp.status === 0)
       localStorage.setItem('status', resp.status)
     })
-  }, [authHeader])
+  }, [])
 
   const isOwnRating = (users: any[], index: number) => {
     return users.length > index + 1 && users[index + 1].position;
