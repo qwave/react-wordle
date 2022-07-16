@@ -73,4 +73,8 @@
 .welcome {
   max-width: 22rem;
   margin: 0 auto;
+
+  @include media-breakpoint-up(xxl) {
+    font-size: 0.8rem;
+  }
 }
