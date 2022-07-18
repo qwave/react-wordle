@@ -18,7 +18,10 @@ const start = (token: string) => {
       }
     )
     .then((response) => {
-      return response.data
+      return response
+    })
+    .catch(function (error) {
+      return error.response
     })
 }
 
@@ -34,7 +37,10 @@ const attempt = (token: string, word: string) => {
       }
     )
     .then((response) => {
-      return response.data
+      return response
+    })
+    .catch(function (error) {
+      return error.response
     })
 }
 
@@ -47,7 +53,10 @@ const rating = (token: string) => {
       }
     )
     .then((response) => {
-      return response.data
+      return response
+    })
+    .catch(function (error) {
+      return error.response
     })
 }
 

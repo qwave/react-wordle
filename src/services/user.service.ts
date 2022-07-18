@@ -20,6 +20,9 @@ const getStatus = (token: string) => {
     .then((response) => {
       return response.data
     })
+    .catch(function (error) {
+      return error.response
+    })
 }
 
 const UserService = {

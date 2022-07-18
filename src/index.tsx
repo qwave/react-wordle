@@ -19,8 +19,8 @@ ReactDOM.render(
       <AuthProvider authType={'localstorage'} authName={'_auth'}>
         <BrowserRouter>
           <Routes>
-            <Route path={'*'} element={<Navigate replace to="/" />} />
             <Route path={'/auth'} element={<Auth />} />
+            <Route path={'*'} element={<Navigate replace to="/" />} />
             <Route
               path={'/'}
               element={

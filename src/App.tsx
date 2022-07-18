@@ -31,13 +31,14 @@ import dogImage from './assets/images/background/dog.png'
 import catSmallImage from './assets/images/background/cat-small.png'
 import IconTimer from './assets/icons/timer.svg'
 import GameService from './services/game.service'
-import { useAuthHeader } from 'react-auth-kit'
+import { useAuthHeader, useSignOut } from 'react-auth-kit'
 import { useStopwatch } from 'react-timer-hook'
 import { Buffer } from 'buffer'
 import { useNavigate } from 'react-router-dom'
 
 function App() {
   const authHeader = useAuthHeader()
+  const signOut = useSignOut()
   const navigate = useNavigate()
 
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
@@ -61,6 +62,11 @@ function App() {
     setIsGameLost(false)
     setIsGameWon(false)
     GameService.start(authHeader()).then((res) => {
+      if (res.status === 401) {
+        signOut()
+        return
+      }
+
       if (!res.solution) {
         navigate('/rating')
         return

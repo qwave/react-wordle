@@ -5,24 +5,34 @@ import blImage from '../assets/images/letters/bl.png'
 import akmImage from '../assets/images/letters/akm.png'
 import dogImage from '../assets/images/background/dog.png'
 import catSmallImage from '../assets/images/background/cat-small.png'
-import { useAuthHeader } from 'react-auth-kit'
+import { useAuthHeader, useSignOut } from 'react-auth-kit'
 import GameService from '../services/game.service'
 import UserService from '../services/user.service'
 import React, { useState, useEffect } from 'react'
 
 export default function Rating() {
   const authHeader = useAuthHeader()
+  const signOut = useSignOut()
 
   const [users, setUsers] = useState<any[]>([])
   const [gameAvailable, setGameAvailable] = useState<boolean>(false)
 
   useEffect(() => {
      GameService.rating(authHeader()).then((res) => {
-      console.log(res)
+       if (res.status === 401) {
+         signOut()
+         return
+       }
+
       setUsers(res);
     })
 
     UserService.getStatus(authHeader()).then((resp) => {
+      if (resp.status === 401) {
+        signOut()
+        return
+      }
+
       setGameAvailable(resp.status === 0)
       localStorage.setItem('status', resp.status)
     })

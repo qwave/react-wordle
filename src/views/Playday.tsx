@@ -11,7 +11,7 @@ import DaySeven from '../assets/images/days/seven.svg'
 import Words from '../assets/images/background/12-words.png'
 import React, { useState, useEffect } from 'react'
 import catSmallImage from '../assets/images/background/cat-small.png'
-import { useAuthHeader } from 'react-auth-kit'
+import { useAuthHeader, useSignOut } from 'react-auth-kit'
 import UserService from '../services/user.service'
 
 type Status = {
@@ -21,6 +21,7 @@ type Status = {
 
 export default function Welcome() {
   const authHeader = useAuthHeader()
+  const signOut = useSignOut()
 
   const images = [DayOne, DayTwo, DayThree, DayFour, DayFive, DaySix, DaySeven]
 
@@ -31,6 +32,11 @@ export default function Welcome() {
 
   useEffect(() => {
     UserService.getStatus(authHeader()).then((resp) => {
+      if (resp.status === 401) {
+        signOut()
+        return
+      }
+
       setStatus(resp)
       localStorage.setItem('status', resp.status)
     })
