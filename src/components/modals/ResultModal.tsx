@@ -7,7 +7,9 @@ type ResultModalOwnProps = {
   minutes: number,
   seconds: number,
   solution: string,
+  fact: string,
   isGameWon: boolean,
+  isDemo: boolean,
   startgame: () => void
 }
 
@@ -38,13 +40,15 @@ export const ResultModal = (props: ResultModalProps) => {
             </div>
           </div>
         </div>}
-        <div className='result__fact'>
-          <div className='result__fact-label'>
-            <Image src={IconSearch} />
-            Интересный факт
+        {props.fact && props.fact.length > 0 && 
+          <div className='result__fact'>
+            <div className='result__fact-label'>
+              <Image src={IconSearch} />
+              Интересный факт
+            </div>
+            <div className='result__fact-text'>{props.fact}</div>
           </div>
-          <div className='result__fact-text'>Наша цель в Тихоокеанском регионе APAC к 2025 накормить более 1,7 млн котят и щенков!</div>
-        </div>
+        }
         <div className='result__actions'>
           <Button onClick={() => { props.startgame()}}>Продолжить</Button>
         </div>

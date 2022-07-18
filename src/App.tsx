@@ -53,6 +53,8 @@ function App() {
   const [isGameLost, setIsGameLost] = useState(false)
   const [isRevealing, setIsRevealing] = useState(false)
   const [solution, setSolution] = useState('')
+  const [fact, setFact] = useState('')
+  const [isDemo, setIsDemo] = useState(false)
   const [position, setPosition] = useState('0')
   const [ranking, setRanking] = useState('0')
   const [guesses, setGuesses] = useState<string[]>([])
@@ -92,6 +94,7 @@ function App() {
       setGuesses(attempts)
       if (res.position >= 0) setPosition((res.position + 1).toString())
       if (res.rankingcount > 0) setRanking(res.rankingcount)
+      setIsDemo(res.demo);
     })
   }
 
@@ -182,7 +185,7 @@ function App() {
     }
 
     GameService.attempt(authHeader(), currentGuess).then((res) => {
-      //console.log(res)
+      setFact(res.fact);
     })
 
     setIsRevealing(true)
@@ -325,7 +328,9 @@ function App() {
         minutes={minutes}
         seconds={seconds}
         solution={solution}
+        fact={fact}
         isGameWon={isGameWon}
+        isDemo={isDemo}
         startgame={() => {
           startGame()
         }}
