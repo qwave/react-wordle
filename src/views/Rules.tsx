@@ -135,7 +135,7 @@ export default function Rules() {
                     <div className='rules__steps-number'>
                       <Image src={numberFour} />
                     </div>
-                    <div className='rules__steps-text'>Х победителей среди сотрудников Royal Canin получат классные призы.</div>
+                    <div className='rules__steps-text'>5 победителей среди сотрудников Royal Canin получат классные призы.</div>
                   </div>
                 </Col>
               </Row>

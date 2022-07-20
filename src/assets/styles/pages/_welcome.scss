@@ -60,19 +60,34 @@
     }
   }
 
-  background-image: url("../../images/background/rope.png");
+  background-image: url('../../images/background/rope.png');
   background-size: 100% auto;
   background-position: center top 37rem;
   background-repeat: no-repeat;
 
   @include media-breakpoint-up(lg) {
-    background-position: center top 24rem;
+    background-position: center top 28rem;
   }
 }
 
 .welcome {
+  position: relative;
   max-width: 22rem;
   margin: 0 auto;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    z-index: -1;
+    background: #ffffff;
+    opacity: 0.95;
+    filter: blur(40px);
+    transform: translate(-50%, -50%);
+  }
 
   @include media-breakpoint-up(xxl) {
     font-size: 0.8rem;
