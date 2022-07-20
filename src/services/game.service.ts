@@ -18,7 +18,7 @@ const start = (token: string) => {
       }
     )
     .then((response) => {
-      return response
+      return response.data
     })
     .catch(function (error) {
       return error.response
@@ -37,7 +37,7 @@ const attempt = (token: string, word: string) => {
       }
     )
     .then((response) => {
-      return response
+      return response.data
     })
     .catch(function (error) {
       return error.response
@@ -46,14 +46,11 @@ const attempt = (token: string, word: string) => {
 
 const rating = (token: string) => {
   return axios
-    .get(
-      API_URL + 'game/rating',
-      {
-        headers: getHeader(token),
-      }
-    )
+    .get(API_URL + 'game/rating', {
+      headers: getHeader(token),
+    })
     .then((response) => {
-      return response
+      return response.data
     })
     .catch(function (error) {
       return error.response
@@ -63,7 +60,7 @@ const rating = (token: string) => {
 const GameService = {
   start,
   attempt,
-  rating
+  rating,
 }
 
 export default GameService
