@@ -1,4 +1,9 @@
 .main--welcome {
+  .main__header {
+    position: relative;
+    z-index: 2;
+  }
+
   .main__text {
     text-align: center;
   }
@@ -21,7 +26,13 @@
     width: 24rem;
     transform: translateX(-30%);
 
+    @include media-breakpoint-down(md) {
+      bottom: 2rem;
+    }
+
     @include media-breakpoint-down(lg) {
+      top: auto;
+      bottom: 3rem;
       max-width: 140%;
     }
 
@@ -44,7 +55,13 @@
     right: 0;
     transform: translateX(30%);
 
+    @include media-breakpoint-down(md) {
+      bottom: -1rem;
+    }
+
     @include media-breakpoint-down(lg) {
+      top: auto;
+      bottom: -3rem;
       max-width: 140%;
     }
 
@@ -62,11 +79,11 @@
 
   background-image: url('../../images/background/rope.png');
   background-size: 100% auto;
-  background-position: center top 37rem;
+  background-position: center bottom;
   background-repeat: no-repeat;
 
   @include media-breakpoint-up(lg) {
-    background-position: center top 28rem;
+    background-position: center top 26rem;
   }
 }
 

@@ -1,6 +1,6 @@
 .result-dialog {
   width: 100%;
-  max-width: 1020px;
+  max-width: min(1020px, 90vh);
   margin: 0.5rem auto;
   padding: 0 0.5rem;
 }
@@ -34,6 +34,10 @@
 
   @include media-breakpoint-up(md) {
     font-size: 0.7rem;
+  }
+
+  @media (max-height: 800px) {
+    font-size: 0.9rem;
   }
 
   & > * {
