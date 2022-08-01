@@ -12,6 +12,7 @@ import Words from '../assets/images/background/12-words.png'
 import React, { useState, useEffect } from 'react'
 import catSmallImage from '../assets/images/background/cat-small.png'
 import { useAuthHeader, useSignOut } from 'react-auth-kit'
+import { useNavigate } from 'react-router-dom'
 import UserService from '../services/user.service'
 
 type Status = {
@@ -22,6 +23,7 @@ type Status = {
 export default function Welcome() {
   const authHeader = useAuthHeader()
   const signOut = useSignOut()
+  const navigate = useNavigate()
 
   const images = [DayOne, DayTwo, DayThree, DayFour, DayFive, DaySix, DaySeven]
 
@@ -39,6 +41,9 @@ export default function Welcome() {
 
       setStatus(resp)
       localStorage.setItem('status', resp.status)
+      if (resp.day < 0) {
+        navigate('/rating')
+      }
     })
   }, [])
 

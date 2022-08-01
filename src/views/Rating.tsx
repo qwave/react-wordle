@@ -106,13 +106,13 @@ export default function Rating() {
                 </tbody>
               </table>
             </div>
-            {gameAvailable &&
-              <div className='rating__actions'>
+            <div className='rating__actions'>
+            {gameAvailable ?
                 <LinkContainer to='/playday'>
                   <Button className='btn-block'>Играть!</Button>
                 </LinkContainer>
+              : <Button className='btn-block' disabled>На сегодня игра больше нет!</Button>}
               </div>
-            }
           </div>
         </Container>
       </div>
