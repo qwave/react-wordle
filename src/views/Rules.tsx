@@ -40,7 +40,7 @@ export default function Rules() {
                 <div className='rules__background'>
                   <Image src={eImage} className='rules__background-image rules__background-image--e'/>
                 </div>
-                <div className='rules__text'>Перым мы ввели слово <strong className='text-primary'>АРБУЗ</strong>.<br />
+                <div className='rules__text'>Первым мы ввели слово <strong className='text-primary'>АРБУЗ</strong>.<br />
                   Буква <strong className='text-primary'>А</strong> есть в загаданном слове, но стоит в другом месте.
                 </div>
                 <div className='rules__sample'>
