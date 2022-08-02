@@ -18,13 +18,13 @@ export default function Rating() {
   const [gameAvailable, setGameAvailable] = useState<boolean>(false)
 
   useEffect(() => {
-    GameService.rating(authHeader()).then((res) => {
-      if (res.status === 401) {
-        signOut()
-        return
-      }
+     GameService.rating(authHeader()).then((res) => {
+       if (res.status === 401) {
+         signOut()
+         return
+       }
 
-      setUsers(res)
+      setUsers(res);
     })
 
     UserService.getStatus(authHeader()).then((resp) => {
@@ -39,7 +39,7 @@ export default function Rating() {
   }, [])
 
   const isOwnRating = (users: any[], index: number) => {
-    return users.length > index + 1 && users[index + 1].position
+    return users.length > index + 1 && users[index + 1].position;
   }
 
   const formatTimeFromSeconds = (time: number) => {
@@ -50,123 +50,69 @@ export default function Rating() {
 
   return (
     <main className={'main main--rating'}>
-      <div className="main__background">
+      <div className='main__background'>
         <Row className={'g-0 flex-nowrap'}>
           <Col>
-            <Image
-              src={akmImage}
-              className={'main__background-image main__background-image--akm'}
-            />
-            <Image
-              src={dogImage}
-              className={'main__background-image main__background-image--dog'}
-            />
+            <Image src={akmImage} className={'main__background-image main__background-image--akm'} />
+            <Image src={dogImage} className={'main__background-image main__background-image--dog'} />
           </Col>
-          <Col xs="auto">
-            <div className="main__background-spacer"></div>
+          <Col xs='auto'>
+            <div className='main__background-spacer'></div>
           </Col>
           <Col>
-            <Image
-              src={blImage}
-              className={'main__background-image main__background-image--bl'}
-            />
-            <Image
-              src={catSmallImage}
-              className={
-                'main__background-image main__background-image--cat-small'
-              }
-            />
+            <Image src={blImage} className={'main__background-image main__background-image--bl'} />
+            <Image src={catSmallImage} className={'main__background-image main__background-image--cat-small'} />
           </Col>
         </Row>
       </div>
-      <div className="main__header">
+      <div className='main__header'>
         <Container fluid>
           <Col>
-            <Image src={siteLogo} fluid className="mx-auto main__logo" />
+            <Image src={siteLogo} fluid className='mx-auto main__logo' />
           </Col>
         </Container>
       </div>
-      <div className="main__content">
+      <div className='main__content'>
         <Container fluid>
-          <div className="rating">
-            <div className="rating__inner">
-              <div className="rating__title-wrapper">
-                <h1 className="rating__title">Рейтинг игроков</h1>
+          <div className='rating'>
+            <div className='rating__inner'>
+              <div className='rating__title-wrapper'>
+                <h1 className='rating__title'>Рейтинг игроков</h1>
               </div>
-              <div className="rating__top">
-                <div className="rating__top-content">
-                  <div className="rating__top-title">
-                    <span
-                      className={isOwnRating(users, 0) ? 'rating__own' : ''}
-                    >
-                      1
-                    </span>
-                    место
-                  </div>
-                  <div className="rating__top-text">
-                    <span>
-                      {users.length > 0 ? users[0].name : 'Mr. Nobody :)'}
-                    </span>{' '}
-                    {users.length > 0 ? users[0].wordcount : '0'} слов
-                  </div>
+              <div className='rating__top'>
+                <div className='rating__top-content'>
+                  <div className='rating__top-title'><span className={isOwnRating(users,0) ? 'rating__own' : ''}>1</span>место</div>
+                  <div className='rating__top-text'><span>{users.length > 0 ? users[0].name: 'Mr. Nobody :)'}</span> {users.length > 0 ? users[0].wordcount: '0'} слов</div>
                 </div>
               </div>
-              <table className="rating__table">
+              <table className='rating__table'>
                 <thead>
                   <tr>
                     <th>#</th>
                     <th>Фамилия Имя</th>
-                    <th>
-                      Количество
-                      <br />
-                      слов
-                    </th>
-                    <th>
-                      Время
-                      <br />
-                      мин:сек
-                    </th>
+                    <th>Количество<br />слов</th>
+                    <th>Время<br />мин:сек</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {[...Array(9)].map((val, index) => (
-                    <tr key={index}>
-                      {isOwnRating(users, index) ? (
-                        <td className="rating__own">
-                          {users[index + 1].position + 1}
-                        </td>
-                      ) : (
-                        <td>{index + 2}</td>
-                      )}
-                      <td>
-                        {users.length > index + 1 ? users[index + 1].name : '-'}
-                      </td>
-                      <td>
-                        {users.length > index + 1
-                          ? users[index + 1].wordcount
-                          : '-'}
-                      </td>
-                      <td>
-                        {users.length > index + 1
-                          ? formatTimeFromSeconds(users[index + 1].time)
-                          : ''}
-                      </td>
-                    </tr>
-                  ))}
+                {[...Array(9)].map((val,index) => (
+                  <tr key={index}>
+                    {isOwnRating(users,index) ? <td className='rating__own'>{users[index + 1].position + 1}</td> : <td>{index + 2}</td>}
+                    <td>{users.length > index + 1 ? users[index + 1].name : '-'}</td>
+                    <td>{users.length > index + 1 ? users[index + 1].wordcount : '-'}</td>
+                    <td>{users.length > index + 1 ? formatTimeFromSeconds(users[index + 1].time) : ''}</td>
+                  </tr>
+                ))}
                 </tbody>
               </table>
             </div>
-            <div className="rating__actions">
-              {gameAvailable ? (
-                <LinkContainer to="/playday">
-                  <Button className="btn-block">Играть!</Button>
+            <div className='rating__actions'>
+            {gameAvailable ?
+                <LinkContainer to='/playday'>
+                  <Button className='btn-block'>Играть!</Button>
                 </LinkContainer>
-              ) : (
-                <Button className="btn-block" disabled>
-                  На сегодня игр больше нет!
-                </Button>
-              )}
-            </div>
+              : <Button className='btn-block' disabled>На сегодня игра больше нет!</Button>}
+              </div>
           </div>
         </Container>
       </div>
