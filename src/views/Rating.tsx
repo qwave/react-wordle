@@ -111,7 +111,7 @@ export default function Rating() {
                 <LinkContainer to='/playday'>
                   <Button className='btn-block'>Играть!</Button>
                 </LinkContainer>
-              : <Button className='btn-block' disabled>На сегодня игра больше нет!</Button>}
+              : <Button className='btn-block' disabled>На сегодня игр больше нет!</Button>}
               </div>
           </div>
         </Container>
