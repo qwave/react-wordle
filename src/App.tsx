@@ -185,10 +185,13 @@ function App() {
     }
 
     GameService.attempt(authHeader(), currentGuess).then((res) => {
+      if (res.status === 400) {
+        navigate('/playday')
+        return;
+      }
       setFact(res.fact);
-    })
 
-    setIsRevealing(true)
+      setIsRevealing(true)
     // turn this back off after all
     // chars have been revealed
     setTimeout(() => {
@@ -219,6 +222,7 @@ function App() {
         }) */
       }
     }
+    })
   }
 
   const boardContainer = useRef<any>()
@@ -332,7 +336,8 @@ function App() {
         isGameWon={isGameWon}
         isDemo={isDemo}
         startgame={() => {
-          startGame()
+          setIsFinishModalOpen(false);
+          setTimeout(startGame, 100);
         }}
       />
     </main>
