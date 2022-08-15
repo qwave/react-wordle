@@ -20,39 +20,7 @@ ReactDOM.render(
         <BrowserRouter>
           <Routes>
             <Route path={'/auth'} element={<Auth />} />
-            <Route path={'*'} element={<Navigate replace to="/" />} />
-            <Route
-              path={'/'}
-              element={
-                <RequireAuth loginPath={'/auth'}>
-                  <Home />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path={'/playday'}
-              element={
-                <RequireAuth loginPath={'/auth'}>
-                  <Playday />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path={'/rules'}
-              element={
-                <RequireAuth loginPath={'/auth'}>
-                  <Rules />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path={'/game'}
-              element={
-                <RequireAuth loginPath={'/auth'}>
-                  <App />
-                </RequireAuth>
-              }
-            />
+            <Route path={'*'} element={<Navigate replace to="/rating" />} />
             <Route
               path={'/rating'}
               element={
