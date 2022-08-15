@@ -107,12 +107,8 @@ export default function Rating() {
               </table>
             </div>
             <div className='rating__actions'>
-            {gameAvailable ?
-                <LinkContainer to='/playday'>
-                  <Button className='btn-block'>Играть!</Button>
-                </LinkContainer>
-              : <Button className='btn-block' disabled>На сегодня игр больше нет!</Button>}
-              </div>
+              <Button className='btn-block' disabled>Игра закончена!</Button>
+            </div>
           </div>
         </Container>
       </div>
